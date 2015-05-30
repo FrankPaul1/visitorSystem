@@ -1,0 +1,80 @@
+//
+   Created by frankubuntu on 15-4-6.
+extends ../layout
+block import
+    script(src="/libs/moment/moment.js")
+
+block content
+    .container.wide
+        .row
+            .col-md-12
+                fieldset#roles
+                    legend 访客列表
+                    table.table.table-hover.table-bordered
+                        thead
+                            tr
+                                th 申请者
+                                th 受访人
+                                th 访客公司
+                                th 访客信息
+                                th 访客人数
+                                th 车牌号码
+                                th 通知申请人
+                                th 到访时间
+                                th 更新时间
+                                th(width="120px") 操作
+                        tbody#visitorList
+                            each vc in visitors
+                                - var statusClass = ((vc.status==2)?'recpted':'')
+                                    tr.visitor-item(class='#{statusClass}')
+                                        input(type="hidden" value="#{vc._id}" name="visitorCase._id")
+                                        td #{vc.applicant.employeeNo} #{vc.applicant.name}
+                                        td
+                                            each r in vc.recp
+                                                | #{r.employeeNo} #{r.name}
+                                                | <br/>
+                                        td #{vc.visitorCompany}
+                                        td
+                                            each info in vc.visitorInfo
+                                               | #{info.name} ( #{info.sex} )
+                                               | <br/>
+                                        td #{vc.visitorCount}
+                                        td #{vc.carNumber}
+                                        td #{vc.isCallApp}
+                                        td #{moment(vc.visitorTime).format('YYYY-MM-DD HH:mm')}
+                                        td #{moment(vc.meta.updateAt).format('YYYY-MM-DD HH:mm')}
+                                        td
+                                            a.status(href="#")
+                                                case vc.status
+                                                    when 1
+                                                        | 警卫已接待
+                                                    when 2
+                                                        | 已接待
+                                                    default
+                                                        | 未接待
+
+block js
+    script(id="item-empty" type="text/template")
+        td
+            input(type="text" name="emp.employeeNo" size="8")
+        td
+            select(name='roleType')
+                option(value="ROLE_ADMIN") 管理员
+                option(value="ROLE_REC") 前台
+                option(value="ROLE_GUARD") 警卫
+        td #{user.employeeNo} #{user.name}
+            input(type="hidden" name="updateBy.employeeNo" value="#{user.employeeNo}")
+        td <%= now %>
+        td
+            a(href="#" class='saveRole') 保存
+            //input(type="submit")
+            span &nbsp;| &nbsp;
+            a(href="#" class='delete') 删除
+    script(id="item-role" type="text/template")
+        td <%= emp.employeeNo %> <%= emp.name %>
+        td <%- utils.transforRoleType(roleType) %>
+        td #{user.employeeNo} #{user.name}
+        td <%= moment(meta.updateAt).format('YYYY-MM-DD HH:mm') %>
+        td
+            a(href="#" class='delete') 删除
+    script(src="/js/list.js")

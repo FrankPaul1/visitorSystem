@@ -1,0 +1,60 @@
+//
+   Created by frankubuntu on 15-4-6.
+extends ../layout
+block import
+    script(src="/libs/moment/moment.js")
+
+block content
+    .container
+        .row
+            .col-md-10.col-md-offset-1
+                fieldset#roles
+                    legend 角色管理
+                    table.table.table-hover.table-bordered
+                        thead
+                            tr
+                                th 成员
+                                th(width="120px") 角色
+                                th 更新者
+                                th 更新时间
+                                th(width="120px") 操作
+                        tbody#roleList
+                            //each role in roles
+                            //    tr
+                            //        input(type="hidden" value="#{role._id}" name="user._id")
+                            //        td #{role.emp.employeeNo} #{role.emp.name}
+                            //        td #{role.roleType}
+                            //        td #{role.updateBy.employeeNo} #{role.updateBy.name}
+                            //        td #{moment(role.meta.updateAt).format('YYYY-MM-DD HH:mm')}
+                            //        td
+                            //            //a(href="#") 更新
+                            //            //span &nbsp; | &nbsp;
+                            //            a(href="#") 删除
+                    button#addNewRole.btn.btn-primary.btn-lg.btn-block(type="button")
+                        span.glyphicon.glyphicon-open  增加新角色
+
+block js
+    script(id="item-empty" type="text/template")
+        td
+            input(type="text" name="emp.employeeNo" size="8")
+        td
+            select(name='roleType')
+                option(value="ROLE_ADMIN") 管理员
+                option(value="ROLE_REC") 前台
+                option(value="ROLE_GUARD") 警卫
+        td #{user.employeeNo} #{user.name}
+            input(type="hidden" name="updateBy.employeeNo" value="#{user.employeeNo}")
+        td <%= now %>
+        td
+            a(href="#" class='saveRole') 保存
+            //input(type="submit")
+            span &nbsp;| &nbsp;
+            a(href="#" class='delete') 删除
+    script(id="item-role" type="text/template")
+        td <%= emp.employeeNo %> <%= emp.name %>
+        td <%- utils.transforRoleType(roleType) %>
+        td #{user.employeeNo} #{user.name}
+        td <%= moment(meta.updateAt).format('YYYY-MM-DD HH:mm') %>
+        td
+            a(href="#" class='delete') 删除
+    script(src="/js/admin.js")

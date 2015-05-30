@@ -1,0 +1,95 @@
+//
+   Created by frankubuntu on 15-4-6.
+extends ../layout
+block import
+    script(src="/libs/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js")
+    script(src="/libs/bootstrap-datetimepicker-master/js/locales/bootstrap-datetimepicker.fr.js")
+    script(src="/libs/moment/moment.js")
+
+block content
+    #error-info.alert.alert-danger.col-md-12(style="display: none; margin-top: -20px;")
+        //#error-info.col-md-8.col-md-offset-2
+    form#visitor-case-form.form-horizontal(method="POST" action="/visitorSystem/visitorCase")
+        .container
+            .row
+                .col-md-10.col-md-offset-1
+                    fieldset
+                        legend 申请人信息
+                        .form-group
+                            lable.control-label.col-md-2 工号<span style="color: red;">*</span>
+                            .col-md-4
+                                input.form-control(type="text" readonly="true" value="#{user.employeeNo}" name="applicant.employeeNo")
+                            lable.control-label.col-md-2 姓名
+                            .col-md-4
+                                input.form-control(type="text" readonly="true" value="#{user.name}")
+            br
+            .row
+                .col-md-10.col-md-offset-1
+                    fieldset
+                        legend 受访人信息
+                        .recp-info-wapper
+                            .form-group.recp-info
+                                lable.control-label.col-md-2 工号<span style="color: red;">*</span>
+                                .col-md-4
+                                    input.form-control(type="text" value="#{user.employeeNo}" name="recp.employeeNo" validate="required:受访人信息未填写||empExists:受访人工号不存在，清确认")
+                                lable.control-label.col-md-2 姓名
+                                .col-md-4
+                                    input.form-control(type="text" value="#{user.name}" readonly="true" name="recp.name")
+                                span.btn.btn-danger.col-md-2.delete-member
+                                    span.glyphicon.glyphicon-remove 删除此受访人
+                        span#add-recp.col-md-4.col-md-offset-4.btn.btn-info.glyphicon.gly.glyphicon-plus  添加受访人
+                        br
+            br
+            .row
+                .col-md-10.col-md-offset-1
+                    fieldset
+                        legend 访客信息
+                        .form-group
+                            lable.control-label.col-md-2 访客人数<span style="color: red;">*</span>
+                            .col-md-4
+                                .col-md-4.input-group
+                                    input.col-md-2.form-control(type="text" value="1" name="visitorCount" readonly="true")
+                                    span#add-visitor.input-group-addon(style="cursor: pointer; background-color: white") +
+                            lable.control-label.col-md-2 访客公司<span style="color: red;">*</span>
+                            .col-md-4
+                                input.form-control(type="text" value="" name="visitorCompany" validate="required:访客公司未填写")
+                        .visitor-info-wapper
+                            .form-group.visitor-info
+                                lable.control-label.col-md-2 访客姓名<span style="color: red;">*</span>
+                                .col-md-4
+                                    input.form-control(type="text" value="" name="visitor.name" validate="required:访客姓名未填写")
+                                lable.control-label.col-md-2 访客性别
+                                .col-md-2
+                                    select.form-control(name="visitor.sex")
+                                        option(value="男") 男
+                                        option(value="女") 女
+                                span.btn.btn-danger.col-md-2.delete-member
+                                    span.glyphicon.glyphicon-remove  删除此访客
+                        .form-group
+                            lable.control-label.col-md-2 车牌号码
+                            .col-md-4
+                                input.form-control(type="text" value="" name="carNumber")
+                            lable.control-label.col-md-2 警卫是否通知申请人
+                            .col-md-4
+                                label.radio-inline
+                                    input(type="radio" value="Y" name="isCallApp")
+                                    | 是
+                                label.radio-inline
+                                    input(type="radio" value="N" name="isCallApp" checked="true")
+                                    | 否
+
+                        .form-group
+                            lable.control-label.col-md-2 到访时间<span style="color: red;">*</span>
+                            .col-md-4.input-group.date.form_datetime.col-md-offset-2(style="padding-left: 15px")
+                                //span.input-append.date.form_datetime.col-md-4
+                                input.form-control(size="18" readonly="true" type="text" value="" name="visitorTime" validate="required:到访时间未填写||checkDate:到访时间不得早于现在，请重新填写")
+                                span.input-group-addon
+                                    span.glyphicon.glyphicon-remove
+                                span.input-group-addon
+                                    span.icon-th.glyphicon.glyphicon-calendar
+                        br
+                        button#submitVisitorCase.btn.btn-primary.btn-lg.btn-block(type="button")
+                            span.glyphicon.glyphicon-send  提交
+
+block js
+    script(src="/js/input.js")

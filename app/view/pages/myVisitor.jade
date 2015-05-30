@@ -1,0 +1,54 @@
+//
+   Created by frankubuntu on 15-4-6.
+extends ../layout
+block import
+    script(src="/libs/moment/moment.js")
+
+block content
+    .container.wide
+        .row
+            .col-md-12
+                fieldset#visitors
+                    legend 我的访客
+                    table.table.table-hover.table-bordered
+                        thead
+                            tr
+                                th 申请者
+                                th 受访人
+                                th 访客公司
+                                th 访客信息
+                                th 访客人数
+                                th 车牌号码
+                                th 通知申请人
+                                th 到访时间
+                                th 更新时间
+                                th(width="120px") 操作
+                        tbody#visitorList
+                            each vc in visitors
+                                tr.visitor-item
+                                    input(type="hidden" value="#{vc._id}" name="visitorCase._id")
+                                    if vc.applicant
+                                        td #{vc.applicant.employeeNo} #{vc.applicant.name}
+                                    else
+                                        td
+                                    td
+                                        each r in vc.recp
+                                            | #{r.employeeNo} #{r.name}
+                                            | <br/>
+                                    td #{vc.visitorCompany}
+                                    td
+                                        each info in vc.visitorInfo
+                                            | #{info.name} ( #{info.sex} )
+                                            | <br/>
+                                    td #{vc.visitorCount}
+                                    td #{vc.carNumber}
+                                    td #{vc.isCallApp}
+                                    td #{moment(vc.visitorTime).format('YYYY-MM-DD HH:mm')}
+                                    td #{moment(vc.meta.updateAt).format('YYYY-MM-DD HH:mm')}
+                                    td
+                                        a(href="/visitorSystem/visitorCase/" + vc._id) 更新
+                                        span &nbsp; | &nbsp;
+                                        a.remove(href="#") 删除
+
+block js
+    script(src="/js/myVisitor.js")

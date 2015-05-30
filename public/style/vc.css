@@ -1,0 +1,56 @@
+* {
+    font-family: "Courier","华文细黑","微软雅黑";
+}
+
+body {
+    padding-top: 70px;
+    background-color: #E1E1E1;
+    min-width: 960px;
+}
+
+.container {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-color: #ffffff;
+    border: solid 1px #aaa;
+}
+
+.container.wide {
+    /*margin-left: 20px;*/
+    /*margin-right: 20px;*/
+    width: 90%;
+}
+
+th {
+    background-color: #337ab7;
+    color: #ffffff;
+    text-align: center;
+}
+
+.datetimepicker th {
+    background-color: #ffffff;
+    color: #000000;
+    text-align: center;
+}
+
+tr.recpted {
+    background-color: #eeeeee;
+    color: #bbbbbb;
+}
+
+.visitor-info,.recp-info {
+    position: relative;
+}
+
+.visitor-info .btn,.recp-info .btn {
+    display: none;
+    position: absolute;
+    vertical-align: middle;
+    top: 0px;
+    bottom: 0px;
+    right: 0px;
+}
+
+.visitor-info:hover .btn,.recp-info:hover .btn {
+    display: block;
+}

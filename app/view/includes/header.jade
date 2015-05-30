@@ -1,0 +1,55 @@
+//
+   Created by frankubuntu on 15-4-5.
+nav#navigation.navbar.navbar-inverse.navbar-fixed-top
+    .container-fluid
+        .navbar-header
+            a.navbar-brand(href="#" title="访客系统") 访客系统
+        .navbar-collapse
+            ul.nav.navbar-nav
+                li
+                    a(href="/visitorSystem/input") 访客申请
+                li
+                    a(href="/visitorSystem/myVisitor") 我的访客
+                li
+                    a(href="/visitorSystem/list") 访客列表
+                li
+                    a(href="/visitorSystem/admin") 管理员界面
+            p.navbar-text.navbar-right
+                if user
+                    span 欢迎您： #{user.name}
+                    span &nbsp; | &nbsp;
+                    a.navbar-link(href="/visitorSystem/user/logout") 注销
+                else
+                    a#signup.navbar-link(href="#", data-toggle="modal", data-target="#signinModal") 登入
+                    span &nbsp; | &nbsp;
+                    a.navbar-link(href="#", data-toggle="modal", data-target="#signupModal") 注册
+                span &nbsp;
+
+#signupModal.modal.fade
+    .modal-dialog
+        .modal-content
+            form(method="POST", action="/visitorSystem/user/signup")
+                .modal-header 注册
+                .modal-body
+                    .form-group
+                        label(for="signupName") 用户名
+                        input#signupName.form-control(name="user[name]",type="text")
+                        label(for="signupPassword") 密码
+                        input#signupPassword.form-control(name="user[password]", type="password")
+                .modal-footer
+                    button.btn.btn-default(type="button", data-dismiss="modal") 关闭
+                    button.btn.btn-success(type="submit") 注册
+#signinModal.modal.fade
+    .modal-dialog
+        .modal-content
+            form(method="POST", action="/visitorSystem/user/signin")
+                .modal-header 登入
+                .modal-body
+                    .form-group
+                        label(for="signinName") 用户名
+                        input#signinName.form-control(name="user[name]", type="text")
+                        label(for="signinPassword") 密码
+                        input#signinPassword.form-control(name="user[password]", type="password")
+                .modal-footer
+                    button.btn.btn-default(type="button", data-dismiss="modal") 关闭
+                    button.btn.btn-success(type="submit") 登入
